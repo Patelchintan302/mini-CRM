@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.CustomerAddEditActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:title="Customers"
+            app:titleTextColor="@android:color/white" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/ETname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Name"
+        android:gravity="center"
+        android:layout_margin="20dp"
+        android:inputType="textMultiLine"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/ETcompany"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Componey"
+        android:gravity="center"
+        android:layout_margin="20dp"
+        android:inputType="textMultiLine"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/ETemail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Email"
+        android:gravity="center"
+        android:layout_margin="20dp"
+        android:inputType="textMultiLine"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/ETphone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Phone No."
+        android:gravity="center"
+        android:layout_margin="20dp"
+        android:inputType="textMultiLine"/>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
