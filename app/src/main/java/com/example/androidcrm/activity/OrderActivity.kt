@@ -119,6 +119,7 @@ class OrderActivity : AppCompatActivity(), OrderAdapter.onClickListener {
         }).attachToRecyclerView(recyclerView)
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.activity_menu, menu)
         return true
