@@ -11,8 +11,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.androidcrm.R
-import com.example.androidcrm.network.CompanyResponse
 import com.example.androidcrm.network.RetrofitClient
+import com.example.androidcrm.network.UserResponse // UPDATED import
 import com.example.androidcrm.utils.Constants
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,8 +26,8 @@ class CustomerAddEditActivity : AppCompatActivity() {
     private lateinit var fetchButton: Button
     private var currentCustomerId: Int = -1
 
-    // --- CHANGE 1: Add a member variable for the network call ---
-    private var companyCall: Call<CompanyResponse>? = null
+    // UPDATED: The Call type now uses the new UserResponse
+    private var userCall: Call<UserResponse>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,26 +63,34 @@ class CustomerAddEditActivity : AppCompatActivity() {
     private fun fetchRandomCompanyData() {
         val TAG = "API_FETCH"
 
-        // Cancel any previous call that might still be running
-        companyCall?.cancel()
+        userCall?.cancel()
 
-        // Assign the new call to our member variable
-        companyCall = RetrofitClient.instance.getRandomCompany()
+        // UPDATED: Call the new endpoint
+        userCall = RetrofitClient.instance.getRandomUser()
 
-        // Use the member variable to make the call
-        companyCall?.enqueue(object : Callback<CompanyResponse> {
-            override fun onResponse(call: Call<CompanyResponse>, response: Response<CompanyResponse>) {
+        userCall?.enqueue(object : Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 if (response.isSuccessful) {
-                    val companyData = response.body()
-                    if (companyData != null) {
-                        Log.d(TAG, "SUCCESS! Data: $companyData")
-                        ETname.setText(companyData.name)
-                        ETcompany.setText(companyData.company)
-                        ETphone.setText(companyData.phone)
-                        ETemail.setText("")
+                    val userResponse = response.body()
+                    // The API returns a list, so we safely get the first user
+                    val user = userResponse?.results?.firstOrNull()
+
+                    if (user != null) {
+                        Log.d(TAG, "SUCCESS! Data: $user")
+
+                        // Combine first and last name for the full name
+                        val fullName = "${user.name.first} ${user.name.last}"
+
+                        ETname.setText(fullName)
+                        ETemail.setText(user.email)
+                        ETphone.setText(user.phone)
+
+                        // Create a placeholder company name
+                        ETcompany.setText("$fullName's Company")
+
                         Toast.makeText(applicationContext, "Data fetched!", Toast.LENGTH_SHORT).show()
                     } else {
-                        Log.e(TAG, "Response was successful, but the body was null.")
+                        Log.e(TAG, "Response was successful, but the user list was empty.")
                     }
                 } else {
                     val errorCode = response.code()
@@ -91,8 +99,7 @@ class CustomerAddEditActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<CompanyResponse>, t: Throwable) {
-                // Check if the call was cancelled by us
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 if (call.isCanceled) {
                     Log.i(TAG, "Call was cancelled.")
                 } else {
@@ -103,13 +110,11 @@ class CustomerAddEditActivity : AppCompatActivity() {
         })
     }
 
-    // --- CHANGE 2: Add onDestroy to clean up the call when the screen closes ---
     override fun onDestroy() {
         super.onDestroy()
-        companyCall?.cancel() // Cancel the call to prevent memory leaks
+        userCall?.cancel()
     }
 
-    // --- Your other methods are unchanged ---
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.save_menu, menu)
         return true

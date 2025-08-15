@@ -2,13 +2,29 @@ package com.example.androidcrm.network
 
 import com.google.gson.annotations.SerializedName
 
-data class CompanyResponse(
-    @SerializedName("business_name")
-    val name: String,
+// The top-level response object contains a list of results
+data class UserResponse(
+    @SerializedName("results")
+    val results: List<UserResult>
+)
 
-    @SerializedName("industry")
-    val company: String,
+// This class holds the actual user data we need
+data class UserResult(
+    @SerializedName("name")
+    val name: Name,
 
-    @SerializedName("phone_number")
+    @SerializedName("email")
+    val email: String,
+
+    @SerializedName("phone")
     val phone: String
+)
+
+// A nested class for the user's first and last name
+data class Name(
+    @SerializedName("first")
+    val first: String,
+
+    @SerializedName("last")
+    val last: String
 )
