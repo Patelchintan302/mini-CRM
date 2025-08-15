@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class CustomerViewModel(application: Application) : AndroidViewModel(application) {
-    // FIX: Changed MutableList to List to match the repository's return type.
     val allCustomers: LiveData<List<Customer>>
     private val repository: CustomerRepository
 
@@ -17,19 +16,20 @@ class CustomerViewModel(application: Application) : AndroidViewModel(application
         allCustomers = repository.allCustomers
     }
 
-    fun insertCustomer(customer: Customer) = viewModelScope.launch {
-        repository.insert(customer)
+    // --- Local Operations (No changes here) ---
+    fun insertCustomer(customer: Customer) = viewModelScope.launch { repository.insert(customer) }
+    fun updateCustomer(customer: Customer) = viewModelScope.launch { repository.update(customer) }
+    fun deleteCustomer(customer: Customer) = viewModelScope.launch { repository.delete(customer) }
+    fun deleteAllCustomers() = viewModelScope.launch { repository.deleteAllCustomers() }
+
+    // --- Sync Functions Exposed to the UI ---
+    // This function will be called by the Activity when the user presses "Save to Cloud".
+    fun saveToCloud() = viewModelScope.launch {
+        repository.saveAllToCloud()
     }
 
-    fun updateCustomer(customer: Customer) = viewModelScope.launch {
-        repository.update(customer)
-    }
-
-    fun deleteCustomer(customer: Customer) = viewModelScope.launch {
-        repository.delete(customer)
-    }
-
-    fun deleteAllCustomers() = viewModelScope.launch {
-        repository.deleteAllCustomers()
+    // This function will be called by the Activity when the user presses "Fetch from Cloud".
+    fun fetchFromCloud() = viewModelScope.launch {
+        repository.fetchAllFromCloud()
     }
 }

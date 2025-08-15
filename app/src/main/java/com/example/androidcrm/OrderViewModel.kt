@@ -16,19 +16,18 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
         allOrders = repository.allOrders
     }
 
-    fun insertOrder(order: Orders) = viewModelScope.launch {
-        repository.insert(order)
+    // --- Local Operations ---
+    fun insertOrder(order: Orders) = viewModelScope.launch { repository.insert(order) }
+    fun updateOrder(order: Orders) = viewModelScope.launch { repository.update(order) }
+    fun deleteOrder(order: Orders) = viewModelScope.launch { repository.delete(order) }
+    fun deleteAllOrders() = viewModelScope.launch { repository.deleteAllOrders() }
+
+    // --- Sync Functions Exposed to the UI ---
+    fun saveToCloud() = viewModelScope.launch {
+        repository.saveAllToCloud()
     }
 
-    fun updateOrder(order: Orders) = viewModelScope.launch {
-        repository.update(order)
-    }
-
-    fun deleteOrder(order: Orders) = viewModelScope.launch {
-        repository.delete(order)
-    }
-
-    fun deleteAllOrders() = viewModelScope.launch {
-        repository.deleteAllOrders()
+    fun fetchFromCloud() = viewModelScope.launch {
+        repository.fetchAllFromCloud()
     }
 }

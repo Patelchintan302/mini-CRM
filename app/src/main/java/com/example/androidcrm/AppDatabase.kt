@@ -5,7 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Customer::class, Orders::class], version = 2, exportSchema = false)
+// FIX: The version number has been increased from 2 to 3.
+@Database(entities = [Customer::class, Orders::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun customerDao(): CustomerDao
@@ -22,6 +23,8 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "crm_database"
                 )
+                    // This line tells Room to just delete the old database and create a new one
+                    // when the version number changes. This is perfect for development.
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
