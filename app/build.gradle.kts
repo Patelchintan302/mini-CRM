@@ -63,4 +63,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Retrofit for networking
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+// Gson converter to turn JSON data into Kotlin objects
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 }
