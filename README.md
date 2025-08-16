@@ -85,5 +85,3 @@ View Orders: Tap on any customer in the list to view their details and a list of
 
 Offline Mode: The app is fully functional without an internet connection. Any changes you make will be saved locally and will sync to the cloud automatically when you go online.
 
-🔜 Coming Soon
-Kotlin XML Viewer App: A separate, second Android application that will read and display the customer and order data from Firebase in a read-only format.
